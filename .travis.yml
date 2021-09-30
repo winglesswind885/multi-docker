@@ -22,7 +22,11 @@ after_success:
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   # take those images and push them to docker hub
+  - docker tag winglesswind/multi-nginx docker push winglesswind/multi-nginx
   - docker push winglesswind/multi-nginx
+  - docker tag winglesswind/multi-client docker push winglesswind/multi-client
   - docker push winglesswind/multi-client
+  - docker tag winglesswind/multi-server docker push winglesswind/multi-server
   - docker push winglesswind/multi-server
+  - docker tag winglesswind/multi-worker docker push winglesswind/multi-worker
   - docker push winglesswind/multi-worker
