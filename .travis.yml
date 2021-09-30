@@ -1,0 +1,27 @@
+sudo: required
+services:
+# specify docker as a dependency
+  - docker
+
+before_install:
+  # run build, only Dockerfile.dev build the client code
+  # build test version of react project
+  - docker build -t winglesswind/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  # run test
+  - docker run -e CI=true winglesswind/react-test npm test
+
+after_success:
+  # build prod versions of all projects (images)
+  - docker build -t winglesswind/multi-nginx -f ./nginx
+  - docker build -t winglesswind/multi-client -f ./client
+  - docker build -t winglesswind/multi-server -f ./server
+  - docker build -t winglesswind/multi-worker -f ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # take those images and push them to docker hub
+  - docker push winglesswind/multi-nginx
+  - docker push winglesswind/multi-client
+  - docker push winglesswind/multi-server
+  - docker push winglesswind/multi-worker
