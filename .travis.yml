@@ -39,14 +39,14 @@ script:
   - docker run -e CI=true winglesswind/react-test npm test
 
 after_success:
-  - docker build -t winglesswind/multi-client ./client
-  - docker build -t winglesswind/multi-nginx ./nginx
-  - docker build -t winglesswind/multi-server ./server
-  - docker build -t winglesswind/multi-worker ./worker
+  - docker build -t winglesswind/multi-client:latest ./client
+  - docker build -t winglesswind/multi-nginx:latest ./nginx
+  - docker build -t winglesswind/multi-server:latest ./server
+  - docker build -t winglesswind/multi-worker:latest ./worker
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
-  - docker push winglesswind/multi-client
-  - docker push winglesswind/multi-nginx
-  - docker push winglesswind/multi-server
-  - docker push winglesswind/multi-worker
+  - docker push winglesswind/multi-client:latest
+  - docker push winglesswind/multi-nginx:latest
+  - docker push winglesswind/multi-server:latest
+  - docker push winglesswind/multi-worker:latest
