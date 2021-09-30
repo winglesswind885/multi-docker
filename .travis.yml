@@ -1,6 +1,7 @@
 sudo: required
+language: generic
 services:
-# specify docker as a dependency
+  # specify docker as a dependency
   - docker
 
 before_install:
